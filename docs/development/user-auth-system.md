@@ -552,8 +552,8 @@ export class PasswordService {
 export class MFAService {
   async generateTOTPSecret(userId: string): Promise<{ secret: string; qrCode: string }> {
     const secret = speakeasy.generateSecret({
-      name: `SpellBackend:${userId}`,
-      issuer: 'SpellBackend'
+      name: `AuthForge:${userId}`,
+      issuer: 'AuthForge'
     });
 
     // 加密存储密钥

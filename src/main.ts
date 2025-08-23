@@ -34,7 +34,7 @@ async function bootstrap() {
   // Swagger 文档
   if (configService.get('NODE_ENV') === 'development') {
     const config = new DocumentBuilder()
-      .setTitle('SpellBackend Auth API')
+      .setTitle('AuthForge Auth API')
       .setDescription('用户注册与认证系统 API 文档')
       .setVersion('1.0')
       .addBearerAuth()

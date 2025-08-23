@@ -16,7 +16,7 @@ const AppDataSource = new DataSource({
   port: parseInt(process.env.DATABASE_PORT || '5433'),
   username: process.env.DATABASE_USERNAME || 'postgres',
   password: process.env.DATABASE_PASSWORD || 'password',
-  database: process.env.DATABASE_NAME || 'spellbackend',
+  database: process.env.DATABASE_NAME || 'AuthForge',
   entities: [User, RefreshToken, OAuthProvider, VerificationCode, MfaDevice, FileMetadata],
   migrations: [__dirname + '/migrations/*.js'],
   migrationsTableName: 'migrations',

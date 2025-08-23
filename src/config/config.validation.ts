@@ -51,6 +51,6 @@ export const configValidationSchema = Joi.object({
   PASSWORD_SALT_ROUNDS: Joi.number().default(12),
 
   // MFA 配置
-  MFA_ISSUER: Joi.string().default('SpellBackend'),
-  MFA_SERVICE_NAME: Joi.string().default('SpellBackend Auth'),
+  MFA_ISSUER: Joi.string().default('AuthForge'),
+  MFA_SERVICE_NAME: Joi.string().default('AuthForge Auth'),
 });

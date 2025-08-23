@@ -2,7 +2,7 @@
 
 # 开发环境停止脚本
 
-echo "🛑 停止 SpellBackend 认证系统开发环境..."
+echo "🛑 停止 AuthForge 认证系统开发环境..."
 
 # 停止所有服务
 docker compose down

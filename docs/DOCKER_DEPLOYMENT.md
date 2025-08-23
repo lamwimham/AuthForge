@@ -1,6 +1,6 @@
-# SpellBackend Docker 部署指南
+# AuthForge Docker 部署指南
 
-本文档介绍如何使用 Docker 部署 SpellBackend 用户认证系统到生产环境。
+本文档介绍如何使用 Docker 部署 AuthForge 用户认证系统到生产环境。
 
 ## 📋 部署要求
 
@@ -21,7 +21,7 @@
 ### 1. 克隆项目
 ```bash
 git clone <repository-url>
-cd spellbackend
+cd AuthForge
 ```
 
 ### 2. 配置环境变量
@@ -57,7 +57,7 @@ REDIS_PASSWORD=your_secure_redis_password_here
 
 ### 1. 构建镜像
 ```bash
-docker build -t spellbackend:latest .
+docker build -t AuthForge:latest .
 ```
 
 ### 2. 启动服务
@@ -67,7 +67,7 @@ docker-compose -f docker-compose.prod.yml --env-file .env.production up -d
 
 ### 3. 运行数据库迁移
 ```bash
-docker-compose -f docker-compose.prod.yml exec spellbackend npm run db:migrate
+docker-compose -f docker-compose.prod.yml exec AuthForge npm run db:migrate
 ```
 
 ## 🔧 服务管理
@@ -83,7 +83,7 @@ docker-compose -f docker-compose.prod.yml ps
 docker-compose -f docker-compose.prod.yml logs -f
 
 # 查看特定服务日志
-docker-compose -f docker-compose.prod.yml logs -f spellbackend
+docker-compose -f docker-compose.prod.yml logs -f AuthForge
 ```
 
 ### 重启服务
@@ -92,7 +92,7 @@ docker-compose -f docker-compose.prod.yml logs -f spellbackend
 docker-compose -f docker-compose.prod.yml restart
 
 # 重启特定服务
-docker-compose -f docker-compose.prod.yml restart spellbackend
+docker-compose -f docker-compose.prod.yml restart AuthForge
 ```
 
 ### 停止服务
@@ -132,7 +132,7 @@ docker system df
 ### 数据备份
 ```bash
 # 备份数据库
-docker-compose -f docker-compose.prod.yml exec postgres pg_dump -U postgres spellbackend_auth > backup_$(date +%Y%m%d_%H%M%S).sql
+docker-compose -f docker-compose.prod.yml exec postgres pg_dump -U postgres AuthForge_auth > backup_$(date +%Y%m%d_%H%M%S).sql
 
 # 备份文件上传目录
 tar -czf uploads_backup_$(date +%Y%m%d_%H%M%S).tar.gz uploads/
@@ -177,13 +177,13 @@ sudo firewall-cmd --reload
 git pull origin main
 
 # 2. 重新构建镜像
-docker build -t spellbackend:latest .
+docker build -t AuthForge:latest .
 
 # 3. 重启应用服务
-docker-compose -f docker-compose.prod.yml up -d --no-deps spellbackend
+docker-compose -f docker-compose.prod.yml up -d --no-deps AuthForge
 
 # 4. 运行迁移（如果有）
-docker-compose -f docker-compose.prod.yml exec spellbackend npm run db:migrate
+docker-compose -f docker-compose.prod.yml exec AuthForge npm run db:migrate
 ```
 
 ## 🚨 故障排除
@@ -202,7 +202,7 @@ ERROR: failed to solve: process "/bin/sh -c npm ci --only=production" did not co
 **方案1：使用优化版Dockerfile（推荐）**
 ```bash
 # 使用优化版Dockerfile构建
-docker build -f Dockerfile.optimized -t spellbackend:latest .
+docker build -f Dockerfile.optimized -t AuthForge:latest .
 
 # 或使用部署脚本
 ./scripts/deploy-prod.sh --optimized
@@ -220,7 +220,7 @@ docker system prune -f
 docker builder prune -f
 
 # 重新构建
-docker build --no-cache -f Dockerfile.optimized -t spellbackend:latest .
+docker build --no-cache -f Dockerfile.optimized -t AuthForge:latest .
 ```
 
 #### 2. 构建上下文过大
@@ -282,7 +282,7 @@ df -h
 ### 日志分析
 ```bash
 # 应用错误日志
-docker-compose -f docker-compose.prod.yml logs spellbackend | grep ERROR
+docker-compose -f docker-compose.prod.yml logs AuthForge | grep ERROR
 
 # 数据库日志
 docker-compose -f docker-compose.prod.yml logs postgres
@@ -296,7 +296,7 @@ docker-compose -f docker-compose.prod.yml exec nginx tail -f /var/log/nginx/acce
 ### 数据库优化
 ```sql
 -- 连接数据库进行优化
-docker-compose -f docker-compose.prod.yml exec postgres psql -U postgres -d spellbackend_auth
+docker-compose -f docker-compose.prod.yml exec postgres psql -U postgres -d AuthForge_auth
 
 -- 查看慢查询
 SELECT query, mean_time, calls 

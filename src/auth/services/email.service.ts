@@ -36,7 +36,7 @@ export class EmailService {
     const template = this.getTemplateByType(type, code);
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM', 'noreply@spellbackend.com'),
+      from: this.configService.get('EMAIL_FROM', 'noreply@AuthForge.com'),
       to: email,
       subject,
       html: template,
@@ -58,7 +58,7 @@ export class EmailService {
     const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`;
     
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM', 'noreply@spellbackend.com'),
+      from: this.configService.get('EMAIL_FROM', 'noreply@AuthForge.com'),
       to: email,
       subject: '密码重置请求',
       html: this.getPasswordResetTemplate(resetUrl),
@@ -93,7 +93,7 @@ export class EmailService {
    * 根据类型获取邮件模板
    */
   private getTemplateByType(type: string, code: string): string {
-    const appName = this.configService.get('APP_NAME', 'SpellBackend');
+    const appName = this.configService.get('APP_NAME', 'AuthForge');
     
     const templates = {
       register: `
@@ -158,7 +158,7 @@ export class EmailService {
    * 默认邮件模板
    */
   private getDefaultTemplate(code: string): string {
-    const appName = this.configService.get('APP_NAME', 'SpellBackend');
+    const appName = this.configService.get('APP_NAME', 'AuthForge');
     
     return `
       <div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">
@@ -176,7 +176,7 @@ export class EmailService {
    * 密码重置邮件模板
    */
   private getPasswordResetTemplate(resetUrl: string): string {
-    const appName = this.configService.get('APP_NAME', 'SpellBackend');
+    const appName = this.configService.get('APP_NAME', 'AuthForge');
     
     return `
       <div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">

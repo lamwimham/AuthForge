@@ -2,11 +2,11 @@
 -- 创建用户认证系统所需的数据库和扩展
 
 -- 确保数据库存在
-SELECT 'CREATE DATABASE spellbackend_auth'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'spellbackend_auth')\gexec
+SELECT 'CREATE DATABASE AuthForge_auth'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'AuthForge_auth')\gexec
 
 -- 连接到数据库
-\c spellbackend_auth;
+\c AuthForge_auth;
 
 -- 创建UUID扩展（用于生成UUID主键）
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

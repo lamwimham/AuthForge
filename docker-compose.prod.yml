@@ -6,13 +6,13 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: spellbackend-app
+    container_name: AuthForge-app
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-spellbackend}
+      - DB_NAME=${DB_NAME:-AuthForge}
       - DB_USERNAME=${DB_USERNAME:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-postgres}
       - REDIS_HOST=redis
@@ -30,7 +30,7 @@ services:
     volumes:
       - uploads:/app/uploads
     networks:
-      - spellbackend-network
+      - AuthForge-network
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
@@ -41,10 +41,10 @@ services:
   # PostgreSQL数据库
   postgres:
     image: postgres:15-alpine
-    container_name: spellbackend-postgres
+    container_name: AuthForge-postgres
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=${DB_NAME:-spellbackend}
+      - POSTGRES_DB=${DB_NAME:-AuthForge}
       - POSTGRES_USER=${DB_USERNAME:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
       - PGDATA=/var/lib/postgresql/data/pgdata
@@ -54,9 +54,9 @@ services:
       - postgres_data:/var/lib/postgresql/data/pgdata
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - spellbackend-network
+      - AuthForge-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-spellbackend}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-AuthForge}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -64,14 +64,14 @@ services:
   # Redis缓存
   redis:
     image: redis:7-alpine
-    container_name: spellbackend-redis
+    container_name: AuthForge-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
-      - spellbackend-network
+      - AuthForge-network
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -82,7 +82,7 @@ services:
   # Nginx反向代理
   nginx:
     image: nginx:alpine
-    container_name: spellbackend-nginx
+    container_name: AuthForge-nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -94,7 +94,7 @@ services:
     depends_on:
       - app
     networks:
-      - spellbackend-network
+      - AuthForge-network
 
 volumes:
   postgres_data:
@@ -105,5 +105,5 @@ volumes:
     driver: local
 
 networks:
-  spellbackend-network:
+  AuthForge-network:
     driver: bridge

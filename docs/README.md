@@ -1,6 +1,6 @@
-# SpellBackend 项目文档
+# AuthForge 项目文档
 
-这里包含了 SpellBackend 用户认证系统的所有项目文档。
+这里包含了 AuthForge 用户认证系统的所有项目文档。
 
 ## 📚 文档索引
 
@@ -63,4 +63,4 @@
 ---
 
 **最后更新**: $(date +"%Y-%m-%d")  
-**维护者**: SpellBackend Team
+**维护者**: AuthForge Team

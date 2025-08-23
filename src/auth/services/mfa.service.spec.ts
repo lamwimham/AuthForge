@@ -59,7 +59,7 @@ describe('MfaService', () => {
           useValue: {
             get: jest.fn().mockImplementation((key: string, defaultValue?: any) => {
               const config = {
-                APP_NAME: 'SpellBackend',
+                APP_NAME: 'AuthForge',
                 MFA_ENCRYPTION_KEY: 'test-key',
               };
               return config[key] || defaultValue;

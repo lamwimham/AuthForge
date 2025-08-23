@@ -48,8 +48,8 @@ import { RedisModule } from '../redis/redis.module';
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES_IN', '15m'),
-          issuer: 'spellbackend',
-          audience: 'spellbackend-users',
+          issuer: 'AuthForge',
+          audience: 'AuthForge-users',
         },
       }),
       inject: [ConfigService],

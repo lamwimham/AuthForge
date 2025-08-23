@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SpellBackend 生产环境部署脚本
+# AuthForge 生产环境部署脚本
 # 用途：自动化Docker部署流程
 
 set -e  # 遇到错误立即退出
@@ -94,7 +94,7 @@ build_image() {
     fi
     
     # 构建镜像
-    docker build -f "$dockerfile" -t spellbackend:latest .
+    docker build -f "$dockerfile" -t AuthForge:latest .
     
     if [ $? -eq 0 ]; then
         log_info "Docker镜像构建成功"
@@ -184,7 +184,7 @@ cleanup() {
 
 # 主函数
 main() {
-    log_info "开始部署 SpellBackend 到生产环境"
+    log_info "开始部署 AuthForge 到生产环境"
     
     # 解析命令行参数
     local BUILD_ONLY=false

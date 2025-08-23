@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: spellbackend_postgres
+    container_name: AuthForge_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: spellbackend_auth
+      POSTGRES_DB: AuthForge_auth
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -20,7 +20,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: spellbackend_redis
+    container_name: AuthForge_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -35,7 +35,7 @@ services:
   # 可选：Redis GUI 管理工具
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: spellbackend_redis_gui
+    container_name: AuthForge_redis_gui
     restart: unless-stopped
     environment:
       REDIS_HOSTS: local:redis:6379
@@ -47,10 +47,10 @@ services:
   # 可选：PostgreSQL GUI 管理工具
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: spellbackend_pgadmin
+    container_name: AuthForge_pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@spellbackend.com
+      PGADMIN_DEFAULT_EMAIL: admin@AuthForge.com
       PGADMIN_DEFAULT_PASSWORD: admin123
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
@@ -67,4 +67,4 @@ volumes:
 
 networks:
   default:
-    name: spellbackend_network
+    name: AuthForge_network

@@ -1,4 +1,4 @@
-# SpellBackend 用户认证系统
+# AuthForge 用户认证系统
 
 基于 NestJS + TypeScript 构建的企业级用户认证与管理系统，为现代应用提供完整的身份验证解决方案。
 
@@ -53,7 +53,7 @@
 1. **克隆项目**
 ```bash
 git clone <repository-url>
-cd spellbackend
+cd AuthForge
 ```
 
 2. **安装依赖**
@@ -164,7 +164,7 @@ npm run db:migrate:revert
 ```bash
 # 1. 克隆项目
 git clone <repository-url>
-cd spellbackend
+cd AuthForge
 
 # 2. 配置环境变量
 cp .env.production.example .env.production
@@ -175,7 +175,7 @@ vim .env.production  # 编辑配置文件
 ```
 
 **部署包含的服务**：
-- 💻 **SpellBackend API** - 主应用服务
+- 💻 **AuthForge API** - 主应用服务
 - 🗄️ **PostgreSQL** - 数据库服务
 - 🔴 **Redis** - 缓存服务
 - 🌍 **Nginx** - 反向代理和负载均衡
@@ -261,7 +261,7 @@ vim .env.production  # 编辑配置文件
 
 ## 👨‍💻 作者
 
-**SpellBackend Team**
+**AuthForge Team**
 
 ## 🆘 支持
 

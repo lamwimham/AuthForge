@@ -33,7 +33,7 @@ export class SmsService {
    * 根据类型获取短信内容
    */
   private getMessageByType(type: string, code: string): string {
-    const appName = this.configService.get('APP_NAME', 'SpellBackend');
+    const appName = this.configService.get('APP_NAME', 'AuthForge');
     
     const messages = {
       register: `【${appName}】您的注册验证码是：${code}，有效期10分钟。`,

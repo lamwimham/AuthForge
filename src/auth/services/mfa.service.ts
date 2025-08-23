@@ -47,7 +47,7 @@ export class MfaService {
 
     const secret = speakeasy.generateSecret({
       name: `${user.email || user.username}`,
-      issuer: this.configService.get('APP_NAME', 'SpellBackend'),
+      issuer: this.configService.get('APP_NAME', 'AuthForge'),
       length: 32,
     });
 
