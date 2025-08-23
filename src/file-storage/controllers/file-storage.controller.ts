@@ -25,11 +25,11 @@ import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../database/entities/user.entity';
 import { FileStorageService } from '../services/file-storage.service';
 import { UserProfileService } from '../../user-profile/services/user-profile.service';
-import { AvatarUploadResponseDto } from '../dto/file-upload.dto';
+import { AvatarUploadResponseDto, AvatarUploadDto } from '../dto/file-upload.dto';
 import { ApiResponseDto } from '../../user-profile/dto/profile-response.dto';
 
 @ApiTags('文件存储')
-@Controller('api/v1/user')
+@Controller('user')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class FileStorageController {
@@ -46,18 +46,7 @@ export class FileStorageController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: '头像文件',
-    type: 'multipart/form-data',
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-          description: '头像图片文件（支持JPG、PNG、WebP格式，最大5MB）',
-        },
-      },
-      required: ['file'],
-    },
+    type: AvatarUploadDto,
   })
   @ApiResponse({
     status: HttpStatus.OK,

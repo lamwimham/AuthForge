@@ -10,7 +10,7 @@ import { FileMetadata } from './entities/file-metadata.entity';
 // 加载环境变量
 config();
 
-export const AppDataSource = new DataSource({
+const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DATABASE_HOST || 'localhost',
   port: parseInt(process.env.DATABASE_PORT || '5433'),
@@ -18,7 +18,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD || 'password',
   database: process.env.DATABASE_NAME || 'spellbackend',
   entities: [User, RefreshToken, OAuthProvider, VerificationCode, MfaDevice, FileMetadata],
-  migrations: ['src/database/migrations/*.ts'],
+  migrations: [__dirname + '/migrations/*.js'],
   migrationsTableName: 'migrations',
   synchronize: false, // 生产环境应该关闭
   logging: process.env.NODE_ENV === 'development',

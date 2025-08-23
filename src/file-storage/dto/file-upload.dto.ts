@@ -20,6 +20,15 @@ export class FileUploadDto {
   description?: string;
 }
 
+export class AvatarUploadDto {
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: '头像图片文件（支持JPG、PNG、WebP格式，最大5MB）',
+  })
+  file: any;
+}
+
 export class FileMetadataResponseDto {
   @ApiProperty({ description: '文件ID' })
   id: string;

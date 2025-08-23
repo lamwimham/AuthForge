@@ -5,6 +5,7 @@ import { FileMetadata } from '../database/entities/file-metadata.entity';
 import { FileStorageController } from './controllers/file-storage.controller';
 import { FileStorageService } from './services/file-storage.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserProfileModule } from '../user-profile/user-profile.module';
       },
     }),
     UserProfileModule,
+    AuthModule,
   ],
   controllers: [FileStorageController],
   providers: [FileStorageService],

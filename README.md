@@ -159,21 +159,36 @@ npm run db:migrate:revert
 
 ### Docker 部署
 
-```bash
-# 构建镜像
-docker build -t spellbackend .
+推荐使用 Docker 进行生产环境部署，支持一键式部署。
 
-# 使用 Docker Compose 部署
-docker-compose up -d
+```bash
+# 1. 克隆项目
+git clone <repository-url>
+cd spellbackend
+
+# 2. 配置环境变量
+cp .env.production.example .env.production
+vim .env.production  # 编辑配置文件
+
+# 3. 一键部署
+./scripts/deploy-prod.sh
 ```
+
+**部署包含的服务**：
+- 💻 **SpellBackend API** - 主应用服务
+- 🗄️ **PostgreSQL** - 数据库服务
+- 🔴 **Redis** - 缓存服务
+- 🌍 **Nginx** - 反向代理和负载均衡
+
+详细部署指南请参考：[Docker 部署文档](./docs/DOCKER_DEPLOYMENT.md)
 
 ### 环境变量配置
 
 生产环境需要配置以下关键环境变量：
 
-- `DATABASE_URL`: PostgreSQL 连接字符串
-- `REDIS_URL`: Redis 连接字符串
-- `JWT_SECRET`: JWT 签名密钥 (至少 256 位)
+- `POSTGRES_PASSWORD`: PostgreSQL 数据库密码
+- `REDIS_PASSWORD`: Redis 缓存密码  
+- `JWT_SECRET`: JWT 签名密钥 (至少 32 字符)
 - `MAIL_*`: 邮件服务配置
 - `OAUTH_*`: 第三方登录配置
 

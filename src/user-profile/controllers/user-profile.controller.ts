@@ -28,7 +28,7 @@ import {
 } from '../dto/profile-response.dto';
 
 @ApiTags('用户信息管理')
-@Controller('api/v1/user')
+@Controller('user')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class UserProfileController {

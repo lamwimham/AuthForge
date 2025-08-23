@@ -29,6 +29,8 @@ describe('AuthController', () => {
     refreshTokens: [],
     oauthProviders: [],
     mfaDevices: [],
+    firstName: 'Test',
+    lastName: 'User',
     isLocked: () => false,
     isActive: () => true,
     hasVerifiedContact: () => true,
@@ -36,6 +38,11 @@ describe('AuthController', () => {
     resetFailedAttempts: () => {},
     hasActiveMfaDevices: () => false,
     getActiveMfaDevices: () => [],
+    getFullName: () => 'Test User',
+    getDisplayName: () => 'Test User',
+    isProfileComplete: () => true,
+    getAge: () => null,
+    hasAvatar: () => false,
   } as User;
 
   const mockAuthResponse = {

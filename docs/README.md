@@ -16,6 +16,7 @@
 ### 开发文档
 - [用户认证系统开发文档](./development/user-auth-system.md) - 认证系统完整开发记录
 - [用户资料扩展开发文档](./development/user-profile-extension.md) - 用户资料功能开发记录
+- [Docker 部署指南](./DOCKER_DEPLOYMENT.md) - 生产环境 Docker 部署完整指南
 - [部署指南](./DEPLOYMENT.md) - 生产环境部署说明 (待创建)
 - [开发指南](./DEVELOPMENT.md) - 本地开发环境搭建 (待创建)
 - [API 设计规范](./API_DESIGN.md) - API 设计原则和规范 (待创建)
