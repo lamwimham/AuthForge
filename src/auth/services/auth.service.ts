@@ -9,6 +9,7 @@ import {
 import { UserService } from './user.service';
 import { TokenService, AuthTokens } from './token.service';
 import { PasswordService } from './password.service';
+import { VerificationCodeService } from './verification-code.service';
 import { User, UserStatus } from '../../database/entities/user.entity';
 
 export interface RegisterDto {
@@ -60,6 +61,7 @@ export class AuthService {
     private userService: UserService,
     private tokenService: TokenService,
     private passwordService: PasswordService,
+    private verificationCodeService: VerificationCodeService,
   ) {}
 
   /**
@@ -88,11 +90,12 @@ export class AuthService {
 
       return user;
     } catch (error) {
-      if (error.message.includes('已被使用')) {
-        throw new ConflictException(error.message);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('已被使用')) {
+        throw new ConflictException(errorMessage);
       }
-      if (error.message.includes('密码强度不足')) {
-        throw new BadRequestException(error.message);
+      if (errorMessage.includes('密码强度不足')) {
+        throw new BadRequestException(errorMessage);
       }
       throw error;
     }
@@ -192,18 +195,25 @@ export class AuthService {
    * 重置密码
    */
   async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
-    const { identifier, verificationCode, newPassword, confirmPassword } = resetPasswordDto;
+    const { identifier, verificationCode: _verificationCode, newPassword, confirmPassword } = resetPasswordDto;
+
+    // 忽略暂时未使用的验证码参数
+    void _verificationCode;
 
     // 验证密码确认
     if (newPassword !== confirmPassword) {
       throw new BadRequestException('密码确认不匹配');
     }
 
-    // TODO: 验证验证码
-    // const isCodeValid = await this.verificationService.verifyCode(identifier, verificationCode, 'reset_password');
-    // if (!isCodeValid) {
-    //   throw new UnauthorizedException('验证码无效或已过期');
-    // }
+    // 验证验证码
+    const isCodeValid = await this.verificationCodeService.verifyCode(
+      identifier,
+      'reset_password',
+      _verificationCode,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('验证码无效或已过期');
+    }
 
     // 查找用户
     const user = await this.userService.findByIdentifier(identifier);
@@ -290,12 +300,30 @@ export class AuthService {
   /**
    * 验证邮箱
    */
-  async verifyEmail(userId: string, verificationCode: string): Promise<void> {
-    // TODO: 验证验证码
-    // const isCodeValid = await this.verificationService.verifyCode(email, verificationCode, 'email_verify');
-    // if (!isCodeValid) {
-    //   throw new UnauthorizedException('验证码无效或已过期');
-    // }
+  async verifyEmail(userId: string, _verificationCode: string): Promise<void> {
+    // 忽略暂时未使用的验证码参数
+    void _verificationCode;
+
+    // 获取用户信息
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('用户不存在');
+    }
+
+    if (!user.email) {
+      throw new BadRequestException('用户没有设置邮箱');
+    }
+
+    // 验证验证码
+    const isCodeValid = await this.verificationCodeService.verifyCode(
+      user.email,
+      'email_verify',
+      _verificationCode,
+      userId,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('验证码无效或已过期');
+    }
 
     await this.userService.verifyEmail(userId);
   }
@@ -303,12 +331,30 @@ export class AuthService {
   /**
    * 验证手机号
    */
-  async verifyPhone(userId: string, verificationCode: string): Promise<void> {
-    // TODO: 验证验证码
-    // const isCodeValid = await this.verificationService.verifyCode(phone, verificationCode, 'phone_verify');
-    // if (!isCodeValid) {
-    //   throw new UnauthorizedException('验证码无效或已过期');
-    // }
+  async verifyPhone(userId: string, _verificationCode: string): Promise<void> {
+    // 忽略暂时未使用的验证码参数
+    void _verificationCode;
+
+    // 获取用户信息
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('用户不存在');
+    }
+
+    if (!user.phone) {
+      throw new BadRequestException('用户没有设置手机号');
+    }
+
+    // 验证验证码
+    const isCodeValid = await this.verificationCodeService.verifyCode(
+      user.phone,
+      'phone_verify',
+      _verificationCode,
+      userId,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('验证码无效或已过期');
+    }
 
     await this.userService.verifyPhone(userId);
   }

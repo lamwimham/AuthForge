@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 
 import { AuthService } from '../services/auth.service';
+import { VerificationCodeService } from '../services/verification-code.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RateLimitGuard } from '../guards/rate-limit.guard';
 import { Public } from '../decorators/public.decorator';
@@ -50,7 +51,10 @@ import { User } from '../../database/entities/user.entity';
 @Controller('auth')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly verificationCodeService: VerificationCodeService,
+  ) {}
 
   @Public()
   @Post('register')
@@ -277,8 +281,10 @@ export class AuthController {
   async sendVerificationCode(
     @Body() sendCodeDto: SendVerificationCodeDto,
   ): Promise<ApiResponseDto<MessageResponseDto>> {
-    // TODO: 实现验证码发送逻辑
-    // await this.verificationService.sendVerificationCode(sendCodeDto.target, sendCodeDto.type);
+    await this.verificationCodeService.sendVerificationCode(
+      sendCodeDto.target,
+      sendCodeDto.type,
+    );
     
     return {
       success: true,

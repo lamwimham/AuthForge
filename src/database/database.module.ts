@@ -6,6 +6,7 @@ import { RefreshToken } from './entities/refresh-token.entity';
 import { OAuthProvider } from './entities/oauth-provider.entity';
 import { VerificationCode } from './entities/verification-code.entity';
 import { MfaDevice } from './entities/mfa-device.entity';
+import { FileMetadata } from './entities/file-metadata.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { MfaDevice } from './entities/mfa-device.entity';
         username: configService.get('DATABASE_USERNAME'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [User, RefreshToken, OAuthProvider, VerificationCode, MfaDevice],
+        entities: [User, RefreshToken, OAuthProvider, VerificationCode, MfaDevice, FileMetadata],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
         ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,

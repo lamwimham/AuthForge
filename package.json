@@ -21,9 +21,10 @@
     "docker:start": "./scripts/dev-start.sh",
     "docker:stop": "./scripts/dev-stop.sh",
     "docker:restart": "./scripts/dev-stop.sh && ./scripts/dev-start.sh",
-    "db:migrate": "npm run build && npx typeorm migration:run -d dist/config/typeorm.config.js",
-    "db:migrate:revert": "npm run build && npx typeorm migration:revert -d dist/config/typeorm.config.js",
-    "db:migrate:generate": "npm run build && npx typeorm migration:generate -d dist/config/typeorm.config.js",
+    "db:migrate": "npm run build && npx typeorm migration:run -d dist/database/data-source.js",
+    "db:migrate:revert": "npm run build && npx typeorm migration:revert -d dist/database/data-source.js",
+    "db:migrate:generate": "npm run build && npx typeorm migration:generate -d dist/database/data-source.js",
+    "db:migrate:create": "npx typeorm migration:create src/database/migrations/",
     "typeorm": "npx typeorm-ts-node-commonjs"
   },
   "dependencies": {

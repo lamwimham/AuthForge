@@ -6,7 +6,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { RedisModule } from './redis/redis.module';
+import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
+import { FileStorageModule } from './file-storage/file-storage.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { configValidationSchema } from './config/config.validation';
 
@@ -26,7 +29,10 @@ import { configValidationSchema } from './config/config.validation';
     }]),
     DatabaseModule,
     RedisModule,
+    CommonModule,
     AuthModule,
+    UserProfileModule,
+    FileStorageModule,
   ],
   controllers: [AppController],
   providers: [

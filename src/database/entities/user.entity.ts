@@ -19,11 +19,20 @@ export enum UserStatus {
   PENDING = 'pending',
 }
 
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
+
 @Entity('users')
 @Index(['email'])
 @Index(['phone'])
 @Index(['username'])
 @Index(['status'])
+@Index(['firstName'])
+@Index(['lastName'])
+@Index(['gender'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -75,6 +84,29 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  // 个人信息字段
+  @Column({ name: 'first_name', nullable: true })
+  firstName?: string;
+
+  @Column({ name: 'last_name', nullable: true })
+  lastName?: string;
+
+  @Column({ nullable: true })
+  avatar?: string;
+
+  @Column({ type: 'text', nullable: true })
+  bio?: string;
+
+  @Column({ nullable: true })
+  birthday?: Date;
+
+  @Column({
+    type: 'enum',
+    enum: Gender,
+    nullable: true,
+  })
+  gender?: Gender;
 
   @OneToMany(() => RefreshToken, (token) => token.user)
   refreshTokens: RefreshToken[];
@@ -128,5 +160,52 @@ export class User {
    */
   getActiveMfaDevices(): MfaDevice[] {
     return this.mfaDevices?.filter(device => device.isActive()) || [];
+  }
+
+  // 新增个人信息业务方法
+  /**
+   * 获取完整姓名
+   */
+  getFullName(): string {
+    return [this.firstName, this.lastName].filter(Boolean).join(' ');
+  }
+
+  /**
+   * 获取显示名称
+   */
+  getDisplayName(): string {
+    return this.getFullName() || this.username || this.email?.split('@')[0] || 'User';
+  }
+
+  /**
+   * 检查个人信息是否完整
+   */
+  isProfileComplete(): boolean {
+    return !!(this.firstName && this.lastName);
+  }
+
+  /**
+   * 获取年龄（如果生日已设置）
+   */
+  getAge(): number | null {
+    if (!this.birthday) return null;
+    
+    const today = new Date();
+    const birthDate = new Date(this.birthday);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age;
+  }
+
+  /**
+   * 检查是否有头像
+   */
+  hasAvatar(): boolean {
+    return !!this.avatar;
   }
 }

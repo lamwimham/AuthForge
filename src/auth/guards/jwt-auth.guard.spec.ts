@@ -54,16 +54,20 @@ describe('JwtAuthGuard', () => {
     reflector = module.get<Reflector>(Reflector);
   });
 
-  const createMockContext = (headers: any = {}): ExecutionContext => ({
-    switchToHttp: () => ({
-      getRequest: () => ({
-        headers,
-        user: undefined,
+  const createMockContext = (headers: any = {}): ExecutionContext => {
+    const mockRequest = {
+      headers,
+      user: undefined,
+    };
+    
+    return {
+      switchToHttp: () => ({
+        getRequest: () => mockRequest,
       }),
-    }),
-    getHandler: jest.fn(),
-    getClass: jest.fn(),
-  } as any);
+      getHandler: jest.fn(),
+      getClass: jest.fn(),
+    } as any;
+  };
 
   describe('canActivate', () => {
     it('should allow access to public routes', async () => {
@@ -103,9 +107,10 @@ describe('JwtAuthGuard', () => {
       });
       
       const result = await guard.canActivate(context);
+      const request = context.switchToHttp().getRequest();
       
       expect(result).toBe(true);
-      expect(context.switchToHttp().getRequest().user).toBe(mockUser);
+      expect(request.user).toBe(mockUser);
     });
 
     it('should handle different authorization header formats', async () => {
