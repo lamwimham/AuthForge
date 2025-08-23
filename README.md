@@ -190,6 +190,15 @@ docker-compose up -d
 - `POST /api/v1/auth/logout` - 用户登出
 - `POST /api/v1/user-profile/upload-avatar` - 上传头像
 
+## 📁 项目文档
+
+更多详细的项目文档请查看 [docs 目录](./docs/README.md)，包含：
+
+- 项目开发总结和架构设计
+- 完整的开发文档和指南
+- API 设计规范和最佳实践
+- 部署和运维指南
+
 ## 🧩 功能模块
 
 ### 认证模块 (`/auth`)
