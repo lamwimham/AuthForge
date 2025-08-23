@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';
+import { VerificationCodeService } from '../services/verification-code.service';
 import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { User, UserStatus } from '../../database/entities/user.entity';
@@ -11,6 +12,7 @@ import { RateLimitGuard } from '../guards/rate-limit.guard';
 describe('AuthController', () => {
   let controller: AuthController;
   let authService: AuthService;
+  let verificationCodeService: VerificationCodeService;
 
   const mockUser: User = {
     id: 'user-id',
@@ -26,11 +28,14 @@ describe('AuthController', () => {
     updatedAt: new Date(),
     refreshTokens: [],
     oauthProviders: [],
+    mfaDevices: [],
     isLocked: () => false,
     isActive: () => true,
     hasVerifiedContact: () => true,
     incrementFailedAttempts: () => {},
     resetFailedAttempts: () => {},
+    hasActiveMfaDevices: () => false,
+    getActiveMfaDevices: () => [],
   } as User;
 
   const mockAuthResponse = {
@@ -66,6 +71,13 @@ describe('AuthController', () => {
           },
         },
         {
+          provide: VerificationCodeService,
+          useValue: {
+            sendVerificationCode: jest.fn(),
+            verifyCode: jest.fn(),
+          },
+        },
+        {
           provide: RateLimitGuard,
           useValue: {
             canActivate: jest.fn().mockReturnValue(true),
@@ -92,6 +104,7 @@ describe('AuthController', () => {
 
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
+    verificationCodeService = module.get<VerificationCodeService>(VerificationCodeService);
   });
 
   describe('register', () => {
@@ -108,7 +121,7 @@ describe('AuthController', () => {
 
       expect(result.success).toBe(true);
       expect(result.message).toContain('注册成功');
-      expect(result.data.id).toBe(mockUser.id);
+      expect(result.data?.id).toBe(mockUser.id);
       expect(authService.register).toHaveBeenCalledWith(registerDto);
     });
   });
@@ -156,7 +169,7 @@ describe('AuthController', () => {
 
       expect(result.success).toBe(false);
       expect(result.message).toContain('MFA验证');
-      expect(result.data.mfaRequired).toBe(true);
+      expect(result.data?.mfaRequired).toBe(true);
     });
   });
 
@@ -249,10 +262,16 @@ describe('AuthController', () => {
         type: 'email_verify' as const,
       };
 
+      jest.spyOn(verificationCodeService, 'sendVerificationCode').mockResolvedValue();
+
       const result = await controller.sendVerificationCode(sendCodeDto);
 
       expect(result.success).toBe(true);
       expect(result.message).toContain('验证码已发送');
+      expect(verificationCodeService.sendVerificationCode).toHaveBeenCalledWith(
+        'test@example.com',
+        'email_verify',
+      );
     });
   });
 
