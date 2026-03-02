@@ -261,7 +261,7 @@ vim .env.production  # 编辑配置文件
 
 ## 👨‍💻 作者
 
-**AuthForge Team**
+**Keepin AI Native Team**
 
 ## 🆘 支持
 

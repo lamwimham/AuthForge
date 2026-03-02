@@ -2,7 +2,7 @@
   "name": "AuthForge",
   "version": "0.0.1",
   "description": "用户注册与认证系统",
-  "author": "AuthForge Team",
+  "author": "Keepin AI Native Team",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
