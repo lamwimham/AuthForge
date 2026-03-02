@@ -257,7 +257,7 @@ vim .env.production  # 编辑配置文件
 
 ## 📄 许可证
 
-本项目采用 [MIT 许可证](LICENSE)。
+本项目采用 [Apache 2.0 许可证](LICENSE)。
 
 ## 👨‍💻 作者
 
