@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { FileStorageModule } from './file-storage/file-storage.module';
+import { OAuthModule } from './oauth/oauth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { configValidationSchema } from './config/config.validation';
 
@@ -23,16 +24,19 @@ import { configValidationSchema } from './config/config.validation';
         abortEarly: true,
       },
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 60000, // 1 分钟
-      limit: 10, // 每分钟最多 10 次请求
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 1 分钟
+        limit: 10, // 每分钟最多 10 次请求
+      },
+    ]),
     DatabaseModule,
     RedisModule,
     CommonModule,
     AuthModule,
     UserProfileModule,
     FileStorageModule,
+    OAuthModule,
   ],
   controllers: [AppController],
   providers: [

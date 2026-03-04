@@ -5,6 +5,7 @@ export const configValidationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
   PORT: Joi.number().default(3000),
   API_PREFIX: Joi.string().default('api/v1'),
+  APP_URL: Joi.string().uri().default('http://localhost:3000'),
 
   // 数据库配置
   DATABASE_HOST: Joi.string().required(),
@@ -22,6 +23,7 @@ export const configValidationSchema = Joi.object({
   JWT_SECRET: Joi.string().min(32).required(),
   JWT_ACCESS_TOKEN_EXPIRES_IN: Joi.string().default('15m'),
   JWT_REFRESH_TOKEN_EXPIRES_IN: Joi.string().default('7d'),
+  JWT_KEY_ROTATION_DAYS: Joi.number().default(30),
 
   // 邮件配置
   MAIL_HOST: Joi.string().required(),
@@ -53,4 +55,9 @@ export const configValidationSchema = Joi.object({
   // MFA 配置
   MFA_ISSUER: Joi.string().default('AuthForge'),
   MFA_SERVICE_NAME: Joi.string().default('AuthForge Auth'),
+
+  // SSO 配置
+  SSO_SESSION_TTL_DAYS: Joi.number().default(7),
+  SSO_COOKIE_SECURE: Joi.boolean().default(false),
+  SSO_COOKIE_SAME_SITE: Joi.string().valid('strict', 'lax', 'none').default('lax'),
 });

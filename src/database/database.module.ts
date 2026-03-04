@@ -7,6 +7,27 @@ import { OAuthProvider } from './entities/oauth-provider.entity';
 import { VerificationCode } from './entities/verification-code.entity';
 import { MfaDevice } from './entities/mfa-device.entity';
 import { FileMetadata } from './entities/file-metadata.entity';
+import { OAuthClient } from './entities/oauth-client.entity';
+import { OAuthAuthorizationCode } from './entities/oauth-authorization-code.entity';
+import { OAuthAccessToken } from './entities/oauth-access-token.entity';
+import { SSOSession } from './entities/sso-session.entity';
+import { UserConsent } from './entities/user-consent.entity';
+import { JwtKey } from './entities/jwt-key.entity';
+
+const entities = [
+  User,
+  RefreshToken,
+  OAuthProvider,
+  VerificationCode,
+  MfaDevice,
+  FileMetadata,
+  OAuthClient,
+  OAuthAuthorizationCode,
+  OAuthAccessToken,
+  SSOSession,
+  UserConsent,
+  JwtKey,
+];
 
 @Module({
   imports: [
@@ -19,10 +40,10 @@ import { FileMetadata } from './entities/file-metadata.entity';
         username: configService.get('DATABASE_USERNAME'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [User, RefreshToken, OAuthProvider, VerificationCode, MfaDevice, FileMetadata],
+        entities,
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
-        ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+        ssl: configService.get('NODE_ENV') === 'production' ? true : false,
       }),
       inject: [ConfigService],
     }),

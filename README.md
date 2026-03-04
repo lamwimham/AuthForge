@@ -52,7 +52,7 @@
 
 1. **克隆项目**
 ```bash
-git clone <repository-url>
+git clone git@github.com:lamwimham/AuthForge.git
 cd AuthForge
 ```
 
@@ -163,7 +163,7 @@ npm run db:migrate:revert
 
 ```bash
 # 1. 克隆项目
-git clone <repository-url>
+git clone git@github.com:lamwimham/AuthForge.git
 cd AuthForge
 
 # 2. 配置环境变量
